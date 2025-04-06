@@ -31,12 +31,29 @@ public partial class TaskListViewModel : BaseViewModel
     [ObservableProperty]
     private TaskPriority? priorityFilter;
 
+    [ObservableProperty]
+    private bool showFilters;
+
+    public ObservableCollection<TaskStatus> TaskStatuses { get; } = new();
+    public ObservableCollection<TaskPriority> TaskPriorities { get; } = new();
+
     public TaskListViewModel(IDataService dataService)
     {
         Title = "Tasks";
         _dataService = dataService;
         Tasks = new ObservableCollection<Models.Task>();
         Categories = new ObservableCollection<Category>();
+
+        // Initialize enum collections
+        foreach (TaskStatus status in Enum.GetValues(typeof(TaskStatus)))
+        {
+            TaskStatuses.Add(status);
+        }
+
+        foreach (TaskPriority priority in Enum.GetValues(typeof(TaskPriority)))
+        {
+            TaskPriorities.Add(priority);
+        }
     }
 
     [RelayCommand]
@@ -70,11 +87,19 @@ public partial class TaskListViewModel : BaseViewModel
         if (task == null)
             return;
 
-        await ExecuteAsync(async () =>
+        bool answer = await Application.Current.MainPage.DisplayAlert(
+            "Delete Task",
+            $"Are you sure you want to delete '{task.Title}'?",
+            "Yes", "No");
+
+        if (answer)
         {
-            await _dataService.DeleteTaskAsync(task);
-            Tasks.Remove(task);
-        });
+            await ExecuteAsync(async () =>
+            {
+                await _dataService.DeleteTaskAsync(task);
+                Tasks.Remove(task);
+            });
+        }
     }
 
     [RelayCommand]
@@ -141,6 +166,12 @@ public partial class TaskListViewModel : BaseViewModel
     }
 
     [RelayCommand]
+    private void ShowFiltersToggle()
+    {
+        ShowFilters = !ShowFilters;
+    }
+
+    [RelayCommand]
     private async Task MarkTaskCompletedAsync(Models.Task task)
     {
         if (task == null)
@@ -154,12 +185,19 @@ public partial class TaskListViewModel : BaseViewModel
         });
     }
 
+    [RelayCommand]
+    private async Task AddTaskAsync()
+    {
+        // Navigation will be implemented when we add the navigation service
+        await Application.Current.MainPage.DisplayAlert("Coming Soon", "Task creation will be implemented in the next update.", "OK");
+    }
+
     partial void OnSelectedTaskChanged(Models.Task value)
     {
         if (value != null)
         {
-            // Handle navigation to task details or editing
-            // This will be implemented when we add navigation service
+            // Navigation will be implemented when we add the navigation service
+            SelectedTask = null; // Reset selection
         }
     }
 
