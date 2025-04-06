@@ -1,0 +1,58 @@
+&lt;Project Sdk="Microsoft.NET.Sdk"&gt;
+
+	&lt;PropertyGroup&gt;
+		&lt;TargetFrameworks&gt;net8.0-android;net8.0-ios;net8.0-maccatalyst&lt;/TargetFrameworks&gt;
+		&lt;TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0&lt;/TargetFrameworks&gt;
+		&lt;OutputType&gt;Exe&lt;/OutputType&gt;
+		&lt;RootNamespace&gt;SmartTaskManager&lt;/RootNamespace&gt;
+		&lt;UseMaui&gt;true&lt;/UseMaui&gt;
+		&lt;SingleProject&gt;true&lt;/SingleProject&gt;
+		&lt;ImplicitUsings&gt;enable&lt;/ImplicitUsings&gt;
+		&lt;Nullable&gt;enable&lt;/Nullable&gt;
+
+		&lt;!-- Display name --&gt;
+		&lt;ApplicationTitle&gt;Smart Task Manager&lt;/ApplicationTitle&gt;
+
+		&lt;!-- App Identifier --&gt;
+		&lt;ApplicationId&gt;com.smarttaskmanager.app&lt;/ApplicationId&gt;
+
+		&lt;!-- Versions --&gt;
+		&lt;ApplicationDisplayVersion&gt;1.0&lt;/ApplicationDisplayVersion&gt;
+		&lt;ApplicationVersion&gt;1&lt;/ApplicationVersion&gt;
+
+		&lt;SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'"&gt;11.0&lt;/SupportedOSPlatformVersion&gt;
+		&lt;SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'"&gt;13.1&lt;/SupportedOSPlatformVersion&gt;
+		&lt;SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'"&gt;21.0&lt;/SupportedOSPlatformVersion&gt;
+		&lt;SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'"&gt;10.0.17763.0&lt;/SupportedOSPlatformVersion&gt;
+		&lt;TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'"&gt;10.0.17763.0&lt;/TargetPlatformMinVersion&gt;
+	&lt;/PropertyGroup&gt;
+
+	&lt;ItemGroup&gt;
+		&lt;!-- App Icon --&gt;
+		&lt;MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" /&gt;
+
+		&lt;!-- Splash Screen --&gt;
+		&lt;MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" /&gt;
+
+		&lt;!-- Images --&gt;
+		&lt;MauiImage Include="Resources\Images\*" /&gt;
+		&lt;MauiImage Update="Resources\Images\dotnet_bot.svg" BaseSize="168,208" /&gt;
+
+		&lt;!-- Custom Fonts --&gt;
+		&lt;MauiFont Include="Resources\Fonts\*" /&gt;
+
+		&lt;!-- Raw Assets (also remove the "Resources\Raw" prefix) --&gt;
+		&lt;MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" /&gt;
+	&lt;/ItemGroup&gt;
+
+	&lt;ItemGroup&gt;
+		&lt;PackageReference Include="CommunityToolkit.Maui" Version="7.0.1" /&gt;
+		&lt;PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" /&gt;
+		&lt;PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" /&gt;
+		&lt;PackageReference Include="Microsoft.Identity.Client" Version="4.59.0" /&gt;
+		&lt;PackageReference Include="Newtonsoft.Json" Version="13.0.3" /&gt;
+		&lt;PackageReference Include="sqlite-net-pcl" Version="1.8.116" /&gt;
+		&lt;PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.8" /&gt;
+	&lt;/ItemGroup&gt;
+
+&lt;/Project&gt;
