@@ -6,9 +6,20 @@
     xmlns:views="clr-namespace:SmartTaskManager.Views"
     Shell.FlyoutBehavior="Disabled">
 
-    <ShellContent
-        Title="Tasks"
-        ContentTemplate="{DataTemplate views:TaskListView}"
-        Route="TaskList" />
+    <TabBar>
+        <Tab Title="Tasks" Icon="task_icon.png">
+            <ShellContent
+                Title="Tasks"
+                ContentTemplate="{DataTemplate views:TaskListView}"
+                Route="TaskList" />
+        </Tab>
+
+        <Tab Title="Categories" Icon="category_icon.png">
+            <ShellContent
+                Title="Categories"
+                ContentTemplate="{DataTemplate views:CategoryListView}"
+                Route="Categories" />
+        </Tab>
+    </TabBar>
 
 </Shell>
