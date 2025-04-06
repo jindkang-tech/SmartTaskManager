@@ -6,6 +6,6 @@ public partial class App : Application
     {
         InitializeComponent();
 
-        MainPage = new NavigationPage(Handler.MauiContext.Services.GetService<Views.TaskListView>());
+        MainPage = new AppShell();
     }
 }
