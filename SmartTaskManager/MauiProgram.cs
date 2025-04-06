@@ -29,9 +29,12 @@ public static class MauiProgram
         builder.Services.AddSingleton<IDataService>(s => 
             new SQLiteDataService(Path.Combine(FileSystem.AppDataDirectory, "tasks.db")));
 
-        // Register views
+        // Register views and view models
         builder.Services.AddTransient<TaskListView>();
         builder.Services.AddTransient<TaskListViewModel>();
+        
+        builder.Services.AddTransient<TaskDetailsView>();
+        builder.Services.AddTransient<TaskDetailsViewModel>();
 
         return builder.Build();
     }
