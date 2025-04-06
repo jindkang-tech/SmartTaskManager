@@ -188,15 +188,18 @@ public partial class TaskListViewModel : BaseViewModel
     [RelayCommand]
     private async Task AddTaskAsync()
     {
-        // Navigation will be implemented when we add the navigation service
-        await Application.Current.MainPage.DisplayAlert("Coming Soon", "Task creation will be implemented in the next update.", "OK");
+        await Shell.Current.GoToAsync(nameof(Views.TaskDetailsView));
     }
 
     partial void OnSelectedTaskChanged(Models.Task value)
     {
         if (value != null)
         {
-            // Navigation will be implemented when we add the navigation service
+            var navigationParameter = new Dictionary<string, object>
+            {
+                { "id", value.Id }
+            };
+            Shell.Current.GoToAsync(nameof(Views.TaskDetailsView), navigationParameter);
             SelectedTask = null; // Reset selection
         }
     }
