@@ -35,6 +35,9 @@ public static class MauiProgram
         
         builder.Services.AddTransient<TaskDetailsView>();
         builder.Services.AddTransient<TaskDetailsViewModel>();
+        
+        builder.Services.AddTransient<CategoryListView>();
+        builder.Services.AddTransient<CategoryListViewModel>();
 
         return builder.Build();
     }
