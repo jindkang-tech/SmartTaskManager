@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:SmartTaskManager.ViewModels"
+             xmlns:models="clr-namespace:SmartTaskManager.Models"
+             x:Class="SmartTaskManager.Views.CategoryListView"
+             x:DataType="viewmodels:CategoryListViewModel"
+             Title="{Binding Title}">
+
+    <Grid RowDefinitions="Auto,*">
+        <!-- Add Category Section -->
+        <VerticalStackLayout Grid.Row="0"
+                           Padding="20"
+                           IsVisible="{Binding IsAddingCategory}">
+            <Label Text="New Category"
+                   FontSize="Large"
+                   FontAttributes="Bold"/>
+            
+            <Entry Text="{Binding NewCategoryName}"
+                   Placeholder="Category name"/>
+            
+            <HorizontalStackLayout Spacing="10">
+                <Label Text="Color:"
+                       VerticalOptions="Center"/>
+                <Entry Text="{Binding NewCategoryColor}"
+                       Placeholder="#RRGGBB"
+                       WidthRequest="100"/>
+                <!-- Color preview -->
+                <BoxView Color="{Binding NewCategoryColor}"
+                         WidthRequest="30"
+                         HeightRequest="30"
+                         VerticalOptions="Center"/>
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout Spacing="10"
+                                 Margin="0,10,0,0">
+                <Button Text="Save"
+                        Command="{Binding AddCategoryCommand}"/>
+                <Button Text="Cancel"
+                        Command="{Binding CancelAddCategoryCommand}"/>
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+
+        <!-- Category List -->
+        <RefreshView Grid.Row="1"
+                     IsRefreshing="{Binding IsBusy}"
+                     Command="{Binding LoadDataCommand}">
+            <CollectionView ItemsSource="{Binding Categories}"
+                          SelectedItem="{Binding SelectedCategory}"
+                          SelectionMode="Single">
+                <CollectionView.EmptyView>
+                    <VerticalStackLayout HorizontalOptions="Center"
+                                       VerticalOptions="Center">
+                        <Label Text="No categories found"
+                               HorizontalOptions="Center"/>
+                        <Label Text="Add a category to get started"
+                               HorizontalOptions="Center"
+                               FontSize="Small"
+                               TextColor="Gray"/>
+                    </VerticalStackLayout>
+                </CollectionView.EmptyView>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Category">
+                        <SwipeView>
+                            <SwipeView.RightItems>
+                                <SwipeItems>
+                                    <SwipeItem Text="Delete"
+                                              Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:CategoryListViewModel}}, Path=DeleteCategoryCommand}"
+                                              CommandParameter="{Binding .}"
+                                              BackgroundColor="Red"/>
+                                </SwipeItems>
+                            </SwipeView.RightItems>
+
+                            <Frame Margin="5" Padding="10">
+                                <Grid ColumnDefinitions="Auto,*,Auto">
+                                    <!-- Color indicator -->
+                                    <BoxView Grid.Column="0"
+                                             Color="{Binding Color}"
+                                             WidthRequest="20"
+                                             HeightRequest="20"
+                                             VerticalOptions="Center"/>
+
+                                    <!-- Category name -->
+                                    <Label Grid.Column="1"
+                                           Text="{Binding Name}"
+                                           VerticalOptions="Center"
+                                           Margin="10,0,0,0"/>
+
+                                    <!-- Edit button -->
+                                    <Button Grid.Column="2"
+                                            Text="Edit"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:CategoryListViewModel}}, Path=EditCategoryCommand}"
+                                            CommandParameter="{Binding .}"
+                                            VerticalOptions="Center"/>
+                                </Grid>
+                            </Frame>
+                        </SwipeView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+
+        <!-- Add Category Button -->
+        <Button Grid.Row="1"
+                Text="+"
+                Command="{Binding ShowAddCategoryCommand}"
+                HorizontalOptions="End"
+                VerticalOptions="End"
+                Margin="20"
+                HeightRequest="56"
+                WidthRequest="56"
+                CornerRadius="28"/>
+    </Grid>
+
+</ContentPage>
