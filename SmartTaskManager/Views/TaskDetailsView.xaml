@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:SmartTaskManager.ViewModels"
+             xmlns:models="clr-namespace:SmartTaskManager.Models"
+             x:Class="SmartTaskManager.Views.TaskDetailsView"
+             x:DataType="viewmodels:TaskDetailsViewModel"
+             Title="{Binding Title}">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Save"
+                     Command="{Binding SaveTaskCommand}"
+                     Order="Primary"
+                     Priority="0" />
+        <ToolbarItem Text="Cancel"
+                     Command="{Binding CancelCommand}"
+                     Order="Primary"
+                     Priority="1" />
+        <ToolbarItem Text="Delete"
+                     Command="{Binding DeleteTaskCommand}"
+                     Order="Secondary"
+                     Priority="2" />
+    </ContentPage.ToolbarItems>
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="10" Padding="20">
+            <!-- Title -->
+            <Label Text="Title" />
+            <Entry Text="{Binding Title}"
+                   Placeholder="Enter task title" />
+
+            <!-- Description -->
+            <Label Text="Description" />
+            <Editor Text="{Binding Description}"
+                    Placeholder="Enter task description"
+                    HeightRequest="100"
+                    AutoSize="TextChanges" />
+
+            <!-- Due Date -->
+            <Label Text="Due Date" />
+            <DatePicker Date="{Binding DueDate}"
+                       Format="D"
+                       MinimumDate="{Binding Source={x:Static system:DateTime.Today}}" />
+
+            <!-- Category -->
+            <Label Text="Category" />
+            <Picker ItemsSource="{Binding Categories}"
+                    SelectedItem="{Binding SelectedCategory}"
+                    ItemDisplayBinding="{Binding Name}" />
+
+            <!-- Priority -->
+            <Label Text="Priority" />
+            <Picker ItemsSource="{Binding Priorities}"
+                    SelectedItem="{Binding Priority}" />
+
+            <!-- Status -->
+            <Label Text="Status" />
+            <Picker ItemsSource="{Binding Statuses}"
+                    SelectedItem="{Binding Status}" />
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
